@@ -182,7 +182,7 @@ function addNewProject() {
   const current = new Date();
   projects.push({
     "name": name.value,
-    "description": this.description,
+    "description": description.value,
     "createdAt": `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`,
     "stars": 0
   })
