@@ -46,14 +46,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(project, index) in filteredProjects" :key="project.name">
+          <tr v-for="project in filteredProjects" :key="project.name">
             <td>{{ project.name }}</td>
             <td>{{ project.description }}</td>
             <td class="text-center">{{ formatDate(project.createdAt) }}</td>
             <td class="text-center">{{ project.stars }}</td>
             <td class="text-center">
-              <button v-if="!project.voted" class="btn btn-warning" @click="toogleRateStar(index)">Rate</button>
-              <button v-if="project.voted" class="btn btn-danger" @click="toogleRateStar(index)">Unrate</button>
+              <button v-if="!project.voted" class="btn btn-warning" @click="toogleRateStar(project)">Rate</button>
+              <button v-if="project.voted" class="btn btn-danger" @click="toogleRateStar(project)">Unrate</button>
             </td>
           </tr>
         </tbody>
@@ -135,7 +135,7 @@ function filterSearchString(projects) {
 //Most Stars (show 3 most stars project)
 function showHideMostStar(projects) {
   if (mostStar.value === true) {
-    return projects
+    return projects.slice()
       .sort((a, b) => {
         return b.stars - a.stars
       })
@@ -148,13 +148,14 @@ function showHideMostStar(projects) {
 }
 
 //Vote Unvote Project
-function toogleRateStar(row_id) {
-  if (!projects[row_id].voted) {
-    projects[row_id].voted = true;
-    projects[row_id].stars += 1;
+function toogleRateStar(project) {
+
+  if (!project.voted) {
+    project.voted = true;
+    project.stars += 1;
   } else {
-    projects[row_id].voted = false;
-    projects[row_id].stars = projects[row_id].stars - 1;
+    project.voted = false;
+    project.stars = project.stars - 1;
   }
 }
 
