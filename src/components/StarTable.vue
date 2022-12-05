@@ -27,11 +27,21 @@
         <thead>
           <tr class="text-center">
             <th width="20%" @click="sortTable('name')">Name
-              <div class="arrow" v-if="(col == sortColumn)" v-bind:class="ascending ? 'arrow_up' : 'arrow_down'"></div>
+              <img class="arrow" v-if="('name' != sortColumn)" src="@/assets/arrows-couple.png">
+              <img class="arrow" v-if="('name' === sortColumn && !ascending)" src="@/assets/arrow-up.png">
+              <img class="arrow" v-if="('name' === sortColumn && ascending)" src="@/assets/arrow-down.png">
             </th>
             <th width="40%">Description</th>
-            <th width="15%" @click="sortTable('createdAt')">Creation Date</th>
-            <th width="10%" @click="sortTable('stars')">Stars</th>
+            <th width="15%" @click="sortTable('createdAt')">Creation Date
+              <img class="arrow" v-if="('createdAt' != sortColumn)" src="@/assets/arrows-couple.png">
+              <img class="arrow" v-if="('createdAt' === sortColumn && !ascending)" src="@/assets/arrow-up.png">
+              <img class="arrow" v-if="('createdAt' === sortColumn && ascending)" src="@/assets/arrow-down.png">
+            </th>
+            <th width="10%" @click="sortTable('stars')">Stars
+              <img class="arrow" v-if="('stars' != sortColumn)" src="@/assets/arrows-couple.png">
+              <img class="arrow" v-if="('stars' === sortColumn && !ascending)" src="@/assets/arrow-up.png">
+              <img class="arrow" v-if="('stars' === sortColumn && ascending)" src="@/assets/arrow-down.png">
+            </th>
             <th width="15%"></th>
           </tr>
         </thead>
@@ -116,7 +126,7 @@ computed(() => {
 function filterSearchString(projects) {
 
   if (searchString.value != "") {
-    return projects.filter(project => Object.values(project).join("").toLowerCase().toString().indexOf(searchString.value) !== -1);
+    return projects.filter(project => Object.values(project).join("").toLowerCase().toString().indexOf(searchString.value.toLowerCase()) !== -1);
   } else {
     return projects;
   }
@@ -126,7 +136,6 @@ function filterSearchString(projects) {
 function showHideMostStar(projects) {
   if (mostStar.value === true) {
     return projects
-      .slice()
       .sort((a, b) => {
         return b.stars - a.stars
       })
@@ -190,13 +199,8 @@ function formatDate(dateString) {
 </script>
 
 <style>
-
 .arrow {
-  float: right;
-  width: 12px;
-  height: 15px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position-y: bottom;
+  height: 10px;
+  width: 10px;
 }
 </style>
